@@ -122,6 +122,8 @@ public class ejerciciobinario extends JFrame {
         outputTextArea.setText("Datos borrados.\n");
     }
 
+    int iteraciones = 0;
+    
     private void buscarValor() {
         try {
             int valorBuscado = Integer.parseInt(searchField.getText());
@@ -140,9 +142,13 @@ public class ejerciciobinario extends JFrame {
     private int busquedaBinaria(int[] arr, int x) {
         int inicio = 0, fin = arr.length - 1;
         while (inicio <= fin) {
+            iteraciones++;
+            
             int medio = inicio + (fin - inicio) / 2;
-            if (arr[medio] == x)
+            if (arr[medio] == x){
+                outputTextArea.append("Número de iteraciones " + iteraciones + "\n");
                 return medio;
+            }
             else if (arr[medio] < x)
                 inicio = medio + 1;
             else
@@ -151,6 +157,7 @@ public class ejerciciobinario extends JFrame {
             outputTextArea.append("Comparando con valor en posición " + medio +
                     ": El valor buscado es " + (arr[medio] >= x ? "mayor o igual" : "menor") + "\n");
         }
+        outputTextArea.append("Número de iteraciones " + iteraciones + "\n");
         return -1;
     }
 
