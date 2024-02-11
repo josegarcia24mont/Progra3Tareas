@@ -28,6 +28,7 @@ public class ejerciciobinario extends JFrame {
         JButton mostrarButton = new JButton("Mostrar Datos");
         JButton borrarButton = new JButton("Borrar Datos");
         JButton buscarButton = new JButton("Buscar");
+        JButton iteracionButton = new JButton("Buscar Iteración");
 
         setLayout(new BorderLayout());
         outputTextArea.setEditable(false);
@@ -51,6 +52,7 @@ public class ejerciciobinario extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(ordenarButton);
         buttonPanel.add(mostrarButton);
+        buttonPanel.add(iteracionButton);
         buttonPanel.add(borrarButton);
         add(buttonPanel, BorderLayout.CENTER);
 
@@ -88,6 +90,12 @@ public class ejerciciobinario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buscarValor();
+            }
+        });
+        iteracionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarConIteraciones();
             }
         });
     }
@@ -138,6 +146,22 @@ public class ejerciciobinario extends JFrame {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido para buscar.");
         }
     }
+    
+    private void buscarConIteraciones() {
+    try {
+        int valorBuscado = Integer.parseInt(searchField.getText());
+        int resultado = busquedaBinariaConIteraciones(datos, valorBuscado);
+
+        if (resultado == -1)
+            outputTextArea.append("Elemento " + valorBuscado + " no encontrado en el array\n");
+        else
+            outputTextArea.append("Elemento " + valorBuscado + " encontrado en la posición " + resultado +
+                    ". El valor en esta posición es " + datos[resultado] + "\n");
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Ingrese un número válido para buscar.");
+    }
+}
+
 
     private int busquedaBinaria(int[] arr, int x) {
         int inicio = 0, fin = arr.length - 1;
@@ -160,6 +184,29 @@ public class ejerciciobinario extends JFrame {
         outputTextArea.append("Número de iteraciones " + iteraciones + "\n");
         return -1;
     }
+    
+    private int busquedaBinariaConIteraciones(int[] arr, int x) {
+    int inicio = 0, fin = arr.length - 1;
+    int iteraciones = 0; 
+    while (inicio <= fin) {
+        iteraciones++;
+        
+        int medio = inicio + (fin - inicio) / 2;
+        if (arr[medio] == x){
+            outputTextArea.append("Número de iteraciones " + iteraciones + "\n");
+            return medio;
+        }
+        else if (arr[medio] < x)
+            inicio = medio + 1;
+        else
+            fin = medio - 1;
+
+        
+    }
+    outputTextArea.append("Número de iteraciones " + iteraciones + "\n");
+    return -1;
+}
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
